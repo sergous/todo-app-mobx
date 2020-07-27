@@ -1,10 +1,18 @@
-import React from 'react';
-import * as PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
-import TodoListItem from './TodoListItem';
-import './TodoList.css';
+import React from "react";
+import * as PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import TodoListItem from "./TodoListItem";
+import "./TodoList.css";
 
-export const TodoList = ({ todos, onSubmitTodo, newTodoTitle, onInputChange, remainingCount, onDelete }) => {
+export const TodoList = ({
+  todos,
+  onSubmitTodo,
+  newTodoTitle,
+  onInputChange,
+  remainingCount,
+  onDelete,
+  onChange,
+}) => {
   const handleOnSubmitTodo = (e) => {
     e.preventDefault();
     onSubmitTodo();
@@ -15,7 +23,9 @@ export const TodoList = ({ todos, onSubmitTodo, newTodoTitle, onInputChange, rem
     onInputChange(e);
   };
 
-  const handleOnDelete = (id) => onDelete(id);
+  const handleOnDelete = (todoItem) => onDelete(todoItem);
+
+  const handleOnChange = (todoItem) => onChange(todoItem);
 
   return (
     <div className="card todo-list-container">
@@ -34,23 +44,30 @@ export const TodoList = ({ todos, onSubmitTodo, newTodoTitle, onInputChange, rem
         </section>
       </form>
       <ul className="todo-items">
-        {
-          todos.map((todoItem) => (
-            <TodoListItem todoItem={todoItem} key={todoItem.id} onDelete={handleOnDelete}/>))
-        }
+        {todos.map((todoItem) => (
+          <TodoListItem
+            todoItem={todoItem}
+            key={todoItem.id}
+            onChange={handleOnChange}
+            onDelete={handleOnDelete}
+          />
+        ))}
       </ul>
       <hr />
-      <span className="text-italic tasks-left">Tasks left: {remainingCount}</span>
+      <span className="text-italic tasks-left">
+        Tasks left: {remainingCount}
+      </span>
     </div>
-  )
+  );
 };
 
 TodoList.propTypes = {
-  todos: PropTypes.object.isRequired,
+  todos: PropTypes.array.isRequired,
   onSubmitTodo: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   newTodoTitle: PropTypes.string.isRequired,
-  remainingCount: PropTypes.number.isRequired
+  remainingCount: PropTypes.number.isRequired,
 };
 
-export default observer(TodoList)
+export default observer(TodoList);
