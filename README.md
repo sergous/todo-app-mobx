@@ -6,6 +6,9 @@ The technologies used for this application are:
  * Webpack for module bundling
  * Jest + Enzyme for Unit Testing
 
+## Requires Parse Server
+This application is the client for [Parse Express server](https://github.com/sergous/parse-express-server).
+
 ## How to run the app
 Just install with the latest Node.js and navigate to http://localhost:8080.
 ```bash
